@@ -15,17 +15,12 @@ public class ServiceConsumer {
 
     @StreamListener(Sink.INPUT)
     public void handle(Model.Customer customer) {
-        System.out.println(customer);
         AvgQuantityObject obj = map.getOrDefault(customer.getId(),new AvgQuantityObject());
         obj.setAvgValue((obj.getAvgValue()*obj.getQuantity()+customer.getScore())/(obj.getQuantity()+1));
         obj.setQuantity(obj.getQuantity()+1);
         map.put(customer.getId(), obj);
-        System.out.println(obj);
     }
     public double getAvgValue(String consumerId) {
-        System.out.println(consumerId);
-        map.keySet().forEach(a-> System.out.println(a));
-        System.out.println(map.get(Long.parseLong(consumerId)));
         return map.get(Long.parseLong(consumerId)).getAvgValue();
     }
 
